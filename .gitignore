@@ -1,0 +1,7 @@
+DjangoApi/InterviewApp/migrations/
+DjangoApi/InterviewApp/__pycache__/
+DjangoApi/DjangoApi/__pycache__/
+DjangoApi/InterviewApp/migrations/__pycache__/
+db.sqlite3
+.DS_Store
+DjangoApi/.DS_Store

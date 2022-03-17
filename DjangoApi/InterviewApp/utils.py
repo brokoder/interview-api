@@ -153,7 +153,7 @@ def delete_interviewee_function(request, user_id):
 
 def get_interviewer_slot_function(request, interviewer_id, date_set):
     custom_query = Q()
-    if interviewer_id and interviewer_id != "0":
+    if interviewer_id and interviewer_id != "all":
         custom_query = custom_query & Q(interviewer_id=interviewer_id)
     if date_set[0]:
         custom_query = custom_query & Q(available_date__year=date_set[0])
@@ -223,7 +223,7 @@ def patch_interviewer_slot_function(request, interviewer_id, date_set):
 
 def delete_interviewer_slot_function(request, interviewer_id, date_set):
     custom_query = Q()
-    if interviewer_id and interviewer_id != "0":
+    if interviewer_id and interviewer_id != "all":
         custom_query = custom_query & Q(interviewer_id=interviewer_id)
     if date_set[0]:
         custom_query = custom_query & Q(available_date__year=date_set[0])
@@ -232,16 +232,14 @@ def delete_interviewer_slot_function(request, interviewer_id, date_set):
     if date_set[2]:
         custom_query = custom_query & Q(available_date__day=date_set[2])
     interviewer_slots = InterviewerAvaliableTimeSlots.objects.filter(custom_query)
-    try:
-        interviewer_slots.delete()
+    delete_count, _ = interviewer_slots.delete()
+    if delete_count:
         return {"message": "Record deleted successfully"}
-    except InterviewerAvaliableTimeSlots.DoesNotExist:
-        return {"error": "Record doesn't exist", "status": 404}
-
+    return {"error": "Record doesn't exist", "status": 404}
 
 def get_interviewee_slot_function(request, interviewee_id, date_set):
     custom_query = Q()
-    if interviewee_id and interviewee_id != "0":
+    if interviewee_id and interviewee_id != "all":
         custom_query = custom_query & Q(interviewee_id=interviewee_id)
     if date_set[0]:
         custom_query = custom_query & Q(available_date__year=date_set[0])
@@ -311,7 +309,7 @@ def patch_interviewee_slot_function(request, interviewee_id, date_set):
 
 def delete_interviewee_slot_function(request, interviewee_id, date_set):
     custom_query = Q()
-    if interviewee_id and interviewee_id != "0":
+    if interviewee_id and interviewee_id != "all":
         custom_query = custom_query & Q(interviewee_id=interviewee_id)
     if date_set[0]:
         custom_query = custom_query & Q(available_date__year=date_set[0])
@@ -320,11 +318,10 @@ def delete_interviewee_slot_function(request, interviewee_id, date_set):
     if date_set[2]:
         custom_query = custom_query & Q(available_date__day=date_set[2])
     interviewee_slots = IntervieweeAvaliableTimeSlots.objects.filter(custom_query)
-    try:
-        interviewee_slots.delete()
+    delete_count, _ = interviewee_slots.delete()
+    if delete_count:
         return {"message": "Record deleted successfully"}
-    except IntervieweeAvaliableTimeSlots.DoesNotExist:
-        return {"error": "Record doesn't exist", "status": 404}
+    return {"error": "Record doesn't exist", "status": 404}
 
 
 CURD_FUNCTIONS_MAPPING = {

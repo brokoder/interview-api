@@ -1,10 +1,10 @@
 from django.http import JsonResponse
 from InterviewApp.utils import CURD_FUNCTIONS_MAPPING, find_avaliable_interview_slots
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
-
-@csrf_exempt
+@api_view(['GET','PUT','POST','PATCH','DELETE'])
+@permission_classes([IsAuthenticated])
 def interviewer(request, record_id=None):
     return_data = CURD_FUNCTIONS_MAPPING[request.method][request.path.split("/")[1]](
         request, record_id
@@ -14,7 +14,8 @@ def interviewer(request, record_id=None):
     return JsonResponse(return_data, safe=False)
 
 
-@csrf_exempt
+@api_view(['GET','PUT','POST','PATCH','DELETE'])
+@permission_classes([IsAuthenticated])
 def interviewee(request, record_id=None):
     return_data = CURD_FUNCTIONS_MAPPING[request.method][request.path.split("/")[1]](
         request, record_id
@@ -24,7 +25,8 @@ def interviewee(request, record_id=None):
     return JsonResponse(return_data, safe=False)
 
 
-@csrf_exempt
+@api_view(['GET','PUT','POST','PATCH','DELETE'])
+@permission_classes([IsAuthenticated])
 def interviewer_slot(request, interviewer_id=None, year=None, month=None, day=None):
     return_data = CURD_FUNCTIONS_MAPPING[request.method][request.path.split("/")[1]](
         request, interviewer_id, (year, month, day)
@@ -34,7 +36,8 @@ def interviewer_slot(request, interviewer_id=None, year=None, month=None, day=No
     return JsonResponse(return_data, safe=False)
 
 
-@csrf_exempt
+@api_view(['GET','PUT','POST','PATCH','DELETE'])
+@permission_classes([IsAuthenticated])
 def interviewee_slot(request, interviewee_id=None, year=None, month=None, day=None):
     return_data = CURD_FUNCTIONS_MAPPING[request.method][request.path.split("/")[1]](
         request, interviewee_id, (year, month, day)
@@ -43,9 +46,8 @@ def interviewee_slot(request, interviewee_id=None, year=None, month=None, day=No
         return JsonResponse(return_data, safe=False, status=return_data.pop("status"))
     return JsonResponse(return_data, safe=False)
 
-
 @api_view()
-@csrf_exempt
+@permission_classes([IsAuthenticated])
 def find_available_slots(request):
     return_data = find_avaliable_interview_slots(request)
     return JsonResponse(return_data, safe=False)

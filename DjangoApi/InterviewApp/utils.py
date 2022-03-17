@@ -362,8 +362,8 @@ CURD_FUNCTIONS_MAPPING = {
 
 
 def find_avaliable_interview_slots(request):
-    interviewer_id = request.GET.get("interviewer_id")
-    interviewee_id = request.GET.get("interviewee_id")
+    interviewer_id = request.GET.get("interviewer")
+    interviewee_id = request.GET.get("interviewee")
     query_str = """
         SELECT
             InterviewApp_intervieweravaliabletimeslots.interviewer_id,
